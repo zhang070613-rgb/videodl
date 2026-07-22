@@ -53,25 +53,29 @@ async def extract(
         },
     }
 
-    # Add cookies if provided
-    if cookie:
-        try:
-            cookie_dict = {}
-            for item in cookie.split("; "):
-                if "=" in item:
-                    k, v = item.split("=", 1)
-                    cookie_dict[k.strip()] = v.strip()
-            if cookie_dict:
-                ydl_opts["cookiefile"] = None  # disable default
-                # Write temp cookie file
-                import tempfile
-                cf = tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False)
-                for k, v in cookie_dict.items():
-                    cf.write(f".douyin.com\tTRUE\t/\tFALSE\t0\t{k}\t{v}\n")
-                cf.close()
-                ydl_opts["cookiefile"] = cf.name
-        except Exception:
-            pass
+    # Build Netscape-format cookie file for platforms that need it (Douyin etc.)
+    try:
+        import tempfile, time
+        cf = tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False)
+        cf.write('# Netscape HTTP Cookie File\n')
+        cf.write('# This is a generated cookie file for yt-dlp\n\n')
+        now = int(time.time()) + 86400 * 365
+        # Default cookies: ttwid (anonymous session, no login needed)
+        cookies_to_add = {
+            'ttwid': '1%7CgfmrD88EPY6sG76VvrD8963Yj_nOUsJbA12OsJHsPSs%7C1784731292%7C547f924aa63a8d7fc7cea65b80f5120f6f4484143869ad4dc2256424d1244644'
+        }
+        if cookie:
+            for item in cookie.split('; '):
+                if '=' in item:
+                    k, v = item.split('=', 1)
+                    cookies_to_add[k.strip()] = v.strip()
+        for domain in ['.douyin.com', '.iesdouyin.com', 'www.douyin.com']:
+            for k, v in cookies_to_add.items():
+                cf.write(f'{domain}\tTRUE\t/\tFALSE\t{now}\t{k}\t{v}\n')
+        cf.close()
+        ydl_opts['cookiefile'] = cf.name
+    except Exception:
+        pass
 
     # Try primary extraction, fall back to generic format on failure
     try:
