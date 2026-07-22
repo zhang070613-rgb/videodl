@@ -1,0 +1,24 @@
+{
+  "name": "VideoDL - Video Downloader",
+  "short_name": "VideoDL",
+  "description": "Free video downloader for 1752+ platforms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='38' fill='%230a0a0a'/><text x='96' y='130' text-anchor='middle' fill='%23ff6b35' font-size='110' font-family='sans-serif'>↓</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230a0a0a'/><text x='256' y='345' text-anchor='middle' fill='%23ff6b35' font-size='300' font-family='sans-serif'>↓</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
